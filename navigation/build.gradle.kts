@@ -1,4 +1,7 @@
-import configs.androidFeature
+import androidDeps.groupDeps.naviagtion
+import androidDeps.groupDeps.room
+import configs.androidLib
+import kotlinDeps.groupDeps.gson
 import modules.Modules
 
 plugins {
@@ -10,10 +13,10 @@ plugins {
         id(ANDROID_EXTENSIONS)
     }
 }
-androidFeature()
+androidLib()
 dependencies {
-    implementation(project(Modules.DOMAIN))
+    implementation(project(Modules.Data.DATA))
     implementation(project(Modules.Utility.BASES))
-    implementation(project(Modules.Utility.BASES_ANDROID))
-    implementation(project(Modules.NAVIGATION))
+    gson()
+    naviagtion()
 }

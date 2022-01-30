@@ -7,9 +7,9 @@ import com.shamlou.bases.readWrite.Readable
 
 class CitiesFileDataSource(
     private val mapperCitiesDataToLocal: Mapper<ResponseCitiesLocal, ResponseCityData>
-) : Readable<Unit, ResponseCityData> {
-    override suspend fun read(input: Unit): ResponseCityData {
+) : Readable<Unit, List<ResponseCityData>> {
+    override suspend fun read(input: Unit): List<ResponseCityData> {
 
-        return mapperCitiesDataToLocal.map(ResponseCitiesLocal())
+        return listOf(mapperCitiesDataToLocal.map(ResponseCitiesLocal()))
     }
 }

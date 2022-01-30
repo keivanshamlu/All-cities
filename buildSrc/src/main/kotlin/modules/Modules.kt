@@ -4,7 +4,7 @@ object Modules {
 
     const val APP = ":app"
     const val DOMAIN = ":domain"
-    const val CORE = ":core"
+    const val NAVIGATION = ":navigation"
     object Data {
         private const val dir = ":data"
         const val DATA = ":$dir:data-core"

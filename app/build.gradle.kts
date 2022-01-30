@@ -17,7 +17,6 @@ dependencies {
 
     Modules.run {
         implementation(project(DOMAIN))
-        implementation(project(CORE))
         implementation(project(Modules.Utility.BASES))
     }
     Modules.Data.run {

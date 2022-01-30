@@ -53,3 +53,16 @@ fun <R, T> Resource<R>.map(mapper: Mapper<R, T>): Resource<T> {
         }
     }
 }
+fun <R, T> Resource<List<R>>.mapListed(mapper: Mapper<R, T>): Resource<List<T>> {
+    return when {
+        this.isSuccess() -> {
+            Resource.success(data?.map { mapper.map(it) })
+        }
+        this.isLoading() -> {
+            Resource.loading()
+        }
+        else -> {
+            Resource.error(error ,)
+        }
+    }
+}

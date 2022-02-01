@@ -1,5 +1,7 @@
 package com.shamlou.bases.dataStructure
 
+import java.util.*
+
 class RadixTree<T>(private val root: Node<T> = Node(false)) {
 
     /**
@@ -41,7 +43,7 @@ class RadixTree<T>(private val root: Node<T> = Node(false)) {
             //There is no associated edge with the first character of the current string
             //so simply add the rest of the string and finish
             if (curEdge == null) {
-                current.edges[transitionChar] = Edge(currStr, Node(true, item))
+                current.addEdge(transitionChar,Edge(currStr, Node(true, item)))
                 break
             }
             var splitIndex = getFirstMismatchLetter(currStr, curEdge.label)
@@ -128,14 +130,13 @@ class RadixTree<T>(private val root: Node<T> = Node(false)) {
     }
 
 }
-
 class Edge<T>(var label: String, var next: Node<T>)
 
 class Item<T>(var label: String, var item: T)
 
 class Node<T>(var isLeaf: Boolean, var item: Item<T>? = null) {
 
-    var edges: HashMap<Char, Edge<T>> = HashMap()
+    var edges: TreeMap<Char, Edge<T>> = TreeMap()
 
     fun getTransition(transitionChar: Char): Edge<T>? {
         return edges[transitionChar]
@@ -143,5 +144,9 @@ class Node<T>(var isLeaf: Boolean, var item: Item<T>? = null) {
 
     fun addEdge(label: String, next: Node<T>) {
         edges[label[0]] = Edge(label, next)
+    }
+
+    fun addEdge(char : Char , edge: Edge<T>){
+        edges[char] = edge
     }
 }

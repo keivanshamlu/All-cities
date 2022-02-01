@@ -1,6 +1,6 @@
 package com.shamlou.featureone.ui.cities.citiesList
 
-import com.shamlou.bases_android.recyclerview.AdapterBase
+import com.shamlou.bases_android.recyclerview.adapter.AdapterBase
 import com.shamlou.featureone.R
 import com.shamlou.featureone.model.posts.ResponseCityView
 

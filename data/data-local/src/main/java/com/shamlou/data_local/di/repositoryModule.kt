@@ -1,9 +1,9 @@
 package com.shamlou.data_local.di
 
 import com.shamlou.bases.mapper.Mapper
-import com.shamlou.bases.readWrite.Readable
 import com.shamlou.bases.qualifiers.LocalQualifiers.CITIES_FILE_DATA_SOURCE
 import com.shamlou.bases.qualifiers.LocalQualifiers.MAPPER_CITIES_LOCAL_TO_DATA
+import com.shamlou.bases.readWrite.Readable
 import com.shamlou.data.model.cities.ResponseCityData
 import com.shamlou.data_local.dataSources.CitiesFileDataSource
 import com.shamlou.data_local.fileReader.ReadFileFromAssets

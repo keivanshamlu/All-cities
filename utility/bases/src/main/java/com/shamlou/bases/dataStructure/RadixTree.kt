@@ -89,7 +89,7 @@ class RadixTree<T>(private val root: Node<T> = Node(false)) {
     }
 
     /**
-     * searchs for a prefix in radix tree
+     * searches for a prefix in radix tree
      * first of all search for particular node and then calls [getAllChildren]
      * and it will get all children of that node which is found data
      */

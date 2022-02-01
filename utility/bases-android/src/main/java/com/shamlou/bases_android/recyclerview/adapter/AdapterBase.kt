@@ -1,4 +1,4 @@
-package com.shamlou.bases_android.recyclerview
+package com.shamlou.bases_android.recyclerview.adapter
 
 import android.view.LayoutInflater
 import android.view.View

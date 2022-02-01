@@ -2,7 +2,6 @@ package com.shamlou.featureone.ui.cities
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
@@ -11,14 +10,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shamlou.bases.useCase.Resource
 import com.shamlou.bases_android.fragment.BaseFragment
+import com.shamlou.bases_android.recyclerview.adapter.onItemsChanged
+import com.shamlou.bases_android.recyclerview.adapter.scrollToTop
 import com.shamlou.featureone.R
 import com.shamlou.featureone.databinding.FragmentAllCitiesBinding
 import com.shamlou.featureone.ui.cities.citiesList.CitiesAdapter
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FragmentAllCities : BaseFragment<AllCitiesViewModel , FragmentAllCitiesBinding>(){
+class FragmentAllCities : BaseFragment<AllCitiesViewModel, FragmentAllCitiesBinding>() {
 
     override val viewModel: AllCitiesViewModel by viewModel()
     override val layoutRes: Int = R.layout.fragment_all_cities
@@ -32,32 +32,24 @@ class FragmentAllCities : BaseFragment<AllCitiesViewModel , FragmentAllCitiesBin
 
         setUpRecyclerview()
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.cities.collect {
-
-                    if(it.status == Resource.Status.LOADING) viewModel.showToast("loading")
-                    if(it.status == Resource.Status.SUCCESS){
-                        Log.d("TESTEST" , it.data?.size.toString())
-                    }
-                    if(it.status == Resource.Status.ERROR){
-                        viewModel.showToast(it.error?.localizedMessage?:"")
-                    }
-                }
-            }
-        }
-
+        //todo change it to data binding stuff
         binding?.editText?.addTextChangedListener {
-            viewModel.getCities(it.toString())
+            viewModel.searchByPrefix(it.toString())
         }
-
     }
 
-    private fun setUpRecyclerview(){
+    private fun setUpRecyclerview() {
 
         binding?.recyclerviewCities?.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = CitiesAdapter()
+            adapter = CitiesAdapter().apply {
+
+                //make list show first item everytime list
+                // updated(since it's sorted user needs to see first items)
+                onItemsChanged {
+                    scrollToTop()
+                }
+            }
         }
     }
 }

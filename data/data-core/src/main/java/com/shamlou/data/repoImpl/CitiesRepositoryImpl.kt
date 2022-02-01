@@ -1,10 +1,11 @@
 package com.shamlou.data.repoImpl
 
-import com.shamlou.bases.dataStructure.Item
 import com.shamlou.bases.dataStructure.RadixTree
 import com.shamlou.bases.mapper.Mapper
 import com.shamlou.bases.readWrite.Readable
+import com.shamlou.bases.readWrite.Writable
 import com.shamlou.data.model.cities.ResponseCityData
+import com.shamlou.domain.model.cities.ResponseAllCitiesDomain
 import com.shamlou.domain.model.cities.ResponseCityDomain
 import com.shamlou.domain.repository.CitiesRepository
 import kotlinx.coroutines.flow.Flow
@@ -15,36 +16,37 @@ import kotlinx.coroutines.flow.flow
  * focusing all possible ways to get data from input
  */
 class CitiesRepositoryImpl(
-    private val citiesLocalDataSource: Readable<Unit, List<ResponseCityData>>,
-    private val mapperCitiesDataToDomain: Mapper<ResponseCityData, ResponseCityDomain>
+    private val citiesLocalDataSourceReadable: Readable<Unit, List<ResponseCityData>>,
+    private val citiesMemoryDataSourceWritable: Writable<List<ResponseCityData>, Unit>,
+    private val citiesMemoryDataSourceReadable: Readable<Unit, RadixTree<ResponseCityDomain>>,
+    private val mapperAllCitiesDataToDomain: Mapper<List<ResponseCityData>, ResponseAllCitiesDomain>,
 ) : CitiesRepository {
 
-    // since insertion of a list into a radix tree has time
-    // complexity of O(n*k) and it is cpu sensitive, we check
-    // whether the tree is empty or not(since our data source is
-    // static and it never change, it will be alright), so whenever
-    // tree is empty we fetch data and insert it all into tree and
-    // from that time, we use that populated tree
-    var tree = RadixTree<ResponseCityDomain>()
-
-
     /**
-     * checks if tree is populated at first
-     * if tree is empty, then it calls [citiesLocalDataSource] and gets data and then it will insert it in tree
-     * if tree is populated, then it will return the tree
+     * calls [citiesLocalDataSourceReadable] to get all cities by reading the file
+     * and then write it in [citiesMemoryDataSourceWritable] to cache it in memory
+     * and then map the list to domain model and emits it
      */
-    override fun getAllCities(): Flow<RadixTree<ResponseCityDomain>> {
+    override fun getAndSaveAllCities(): Flow<ResponseAllCitiesDomain> {
 
         return flow {
-
-            takeIf { tree.isEmpty() }?.apply {
-                citiesLocalDataSource.read(Unit).map {
-                    mapperCitiesDataToDomain.map(it).let {
-                        tree.insert(Item(it.name, it))
-                    }
-                }
+            citiesLocalDataSourceReadable.read(Unit).also {
+                citiesMemoryDataSourceWritable.write(it)
+                emit(mapperAllCitiesDataToDomain.map(it))
             }
-            emit(tree)
+        }
+    }
+
+    /**
+     * emits cached cities in [citiesMemoryDataSourceReadable]
+     */
+    override fun searchInCitiesByPrefix(): Flow<RadixTree<ResponseCityDomain>> {
+
+        return flow {
+            citiesMemoryDataSourceReadable.read(Unit).also {
+
+                emit(it)
+            }
         }
     }
 }

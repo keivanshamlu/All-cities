@@ -1,7 +1,9 @@
 package com.shamlou.featureone.mappers
 
 import com.shamlou.bases.mapper.Mapper
+import com.shamlou.domain.model.cities.ResponseAllCitiesDomain
 import com.shamlou.domain.model.cities.ResponseCityDomain
+import com.shamlou.featureone.model.posts.ResponseAllCitiesView
 import com.shamlou.featureone.model.posts.ResponseCityCoordView
 import com.shamlou.featureone.model.posts.ResponseCityView
 

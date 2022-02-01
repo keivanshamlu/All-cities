@@ -27,11 +27,11 @@
             android:id="@+id/recyclerview_cities"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            binding:setData="@{viewModel.cities.data}"
+            binding:setData="@{viewModel.filteredCities.data}"
             app:layout_constraintTop_toBottomOf="@+id/edit_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            binding:isVisible="@{viewModel.cities.isSuccess() }"
+            binding:isVisible="@{viewModel.allCities.isSuccess() }"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ProgressBar
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            binding:isVisible="@{viewModel.cities.isLoading() }"
+            binding:isVisible="@{viewModel.allCities.isLoading() }"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,7 @@ package com.shamlou.bases_android.bindingAdapters
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.shamlou.bases_android.recyclerview.AdapterBase
+import com.shamlou.bases_android.recyclerview.adapter.AdapterBase
 
 object RecyclerViewBindingAdapter {
 

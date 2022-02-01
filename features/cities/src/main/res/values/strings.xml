@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_a_city_name">enter a city name</string>
+    <string name="empty_state_text" formatted="false">explore %d cities...</string>
+</resources>

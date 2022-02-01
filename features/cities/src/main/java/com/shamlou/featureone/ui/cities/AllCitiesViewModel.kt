@@ -9,30 +9,47 @@ import com.shamlou.bases.useCase.mapListed
 import com.shamlou.bases_android.viewModel.BaseViewModel
 import com.shamlou.domain.model.cities.ResponseAllCitiesDomain
 import com.shamlou.domain.model.cities.ResponseCityDomain
+import com.shamlou.featureone.model.posts.ResponseAllCitiesView
 import com.shamlou.featureone.model.posts.ResponseCityView
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class AllCitiesViewModel(
     private val getAllCitiesUseCase : FlowUseCase<Unit, ResponseAllCitiesDomain>,
     private val searchInCitiesByPrefix : FlowUseCase<String, List<ResponseCityDomain>>,
-    private val mapperAllCitiesDomainToView: Mapper<ResponseAllCitiesDomain, ResponseCityView>,
-    private val mapperCitiesDomainToView: Mapper<ResponseCityDomain, ResponseCityView>,
+    private val mapperAllCitiesDomainToView: Mapper<ResponseAllCitiesDomain, ResponseAllCitiesView>,
+    private val mapperCitiesDomainToView: Mapper<ResponseCityDomain, ResponseCityView>
 ) : BaseViewModel(){
 
 
-    private val _allCities = MutableStateFlow<Resource<ResponseCityView>>(Resource.loading())
-    val allCities: StateFlow<Resource<ResponseCityView>>
+    private val _allCities = MutableStateFlow<Resource<ResponseAllCitiesView>>(Resource.loading())
+    val allCities: StateFlow<Resource<ResponseAllCitiesView>>
         get() = _allCities
 
     private val _filteredCities = MutableStateFlow<Resource<List<ResponseCityView>>>(Resource.loading())
     val filteredCities: StateFlow<Resource<List<ResponseCityView>>>
         get() = _filteredCities
+
+    val isEmptyStateButtonVisible = allCities.combine(filteredCities){ allcities , filteredCities ->
+        allcities.isSuccess() && filteredCities.data?.isEmpty()?:true
+    }
+
+    val descText = allCities.combine(filteredCities){ allcities , filteredCities ->
+        takeIf {
+            allcities.isSuccess() && filteredCities.data?.isEmpty()?:true
+        }?.run {
+            allcities.data?.size?.let {
+
+                "explore $it cities..."
+            }
+        }?: kotlin.run {
+            filteredCities.data?.size?.let {
+                "$it result found"
+            }
+        }
+    }
 
     init {
 

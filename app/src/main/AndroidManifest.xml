@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:name=".Application"
         android:theme="@style/Theme.Sample">
-        <activity android:name="com.shamlou.featureone.ui.MainActivity" android:exported="true">
+        <activity android:name="com.shamlou.featureone.ui.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

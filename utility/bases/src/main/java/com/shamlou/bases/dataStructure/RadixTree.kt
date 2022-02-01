@@ -2,6 +2,12 @@ package com.shamlou.bases.dataStructure
 
 import java.util.*
 
+/**
+ * (In the following comparisons, it is assumed that the keys are of length k
+ * and the data structure contains n members.)
+ *
+ *  lookup, insertion, and deletion in O(k)
+ */
 class RadixTree<T>(private val root: Node<T> = Node(false)) {
 
     /**
@@ -88,6 +94,8 @@ class RadixTree<T>(private val root: Node<T> = Node(false)) {
      * and it will get all children of that node which is found data
      */
     fun search(word: String): List<T> {
+
+        if(word.isEmpty())return emptyList()
         var current = root
         var currIndex = 0
         while (currIndex < word.length) {
@@ -98,7 +106,55 @@ class RadixTree<T>(private val root: Node<T> = Node(false)) {
             currIndex += edge.label.length
             current = edge.next
         }
-        return getAllChildren(current, word)
+        return current.getAllChildren(word)
+    }
+
+    companion object {
+        private const val NO_MISMATCH = -1
+    }
+
+}
+
+/**
+ * represents edges of a node, containts the lable
+ * of edge and the node the edge is referring to
+ */
+class Edge<T>(var label: String, var next: Node<T>)
+
+/**
+ * holds item and the key that radix tree works with
+ */
+class Item<T>(var label: String, var item: T)
+
+/**
+ * represents node of the radix tree, contains group
+ * of edges that are hold a tree map so it's sorted
+ * alphanumeric all the time so whenever we call [getAllChildren]
+ * we get a list of <T> which is in alphanumeric order
+ */
+class Node<T>(var isLeaf: Boolean, var item: Item<T>? = null) {
+
+    // i used TreeMap so it can keep everything sorted
+    var edges: TreeMap<Char, Edge<T>> = TreeMap()
+
+    /**
+     * get the edge that a Char is referring in treemap
+     */
+    fun getTransition(transitionChar: Char): Edge<T>? {
+        return edges[transitionChar]
+    }
+
+    /**
+     * adds a edge in edges treemap
+     */
+    fun addEdge(label: String, next: Node<T>) {
+        edges[label[0]] = Edge(label, next)
+    }
+    /**
+     * adds a edge in edges treemap
+     */
+    fun addEdge(char : Char , edge: Edge<T>){
+        edges[char] = edge
     }
 
     /**
@@ -106,15 +162,14 @@ class RadixTree<T>(private val root: Node<T> = Node(false)) {
      * recursively calls itself until it reaches leaves and then
      * it will add them to a list
      */
-    private fun getAllChildren(root: Node<T>, tillNow: String): List<T> {
+    fun getAllChildren(tillNow: String): List<T> {
 
         val list = mutableListOf<T>()
-        if (root.isLeaf) root.item?.item?.let { return listOf(it) }
-        root.edges.map {
+        if (isLeaf) item?.item?.let { return listOf(it) }
+        edges.map {
             if (it.value.next.isLeaf) list.add(it.value.next.item!!.item)
             else list.addAll(
-                getAllChildren(
-                    it.value.next,
+                it.value.next.getAllChildren(
                     StringBuilder()
                         .append(tillNow)
                         .append(it.value.label)
@@ -123,30 +178,5 @@ class RadixTree<T>(private val root: Node<T> = Node(false)) {
             )
         }
         return list
-    }
-
-    companion object {
-        private const val NO_MISMATCH = -1
-    }
-
-}
-class Edge<T>(var label: String, var next: Node<T>)
-
-class Item<T>(var label: String, var item: T)
-
-class Node<T>(var isLeaf: Boolean, var item: Item<T>? = null) {
-
-    var edges: TreeMap<Char, Edge<T>> = TreeMap()
-
-    fun getTransition(transitionChar: Char): Edge<T>? {
-        return edges[transitionChar]
-    }
-
-    fun addEdge(label: String, next: Node<T>) {
-        edges[label[0]] = Edge(label, next)
-    }
-
-    fun addEdge(char : Char , edge: Edge<T>){
-        edges[char] = edge
     }
 }

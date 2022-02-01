@@ -8,6 +8,7 @@ import com.shamlou.bases.useCase.mapListed
 import com.shamlou.bases_android.viewModel.BaseViewModel
 import com.shamlou.domain.model.cities.ResponseCityDomain
 import com.shamlou.featureone.model.posts.ResponseCityView
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -34,4 +35,5 @@ class AllCitiesViewModel(
             }
         }
     }
+
 }

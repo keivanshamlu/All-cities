@@ -24,7 +24,8 @@ dependencies {
         implementation(project(DATA_LOCAL))
     }
     Modules.Feature.run {
-        implementation(project(FEATURE_ONE))
+        implementation(project(CITIES))
+        implementation(project(MAP))
     }
     featureModuleBaseDependencies()
     room()

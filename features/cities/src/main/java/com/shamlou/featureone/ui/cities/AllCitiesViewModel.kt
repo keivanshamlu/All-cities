@@ -1,5 +1,6 @@
 package com.shamlou.featureone.ui.cities
 
+import android.os.Looper
 import androidx.lifecycle.viewModelScope
 import com.shamlou.bases.mapper.Mapper
 import com.shamlou.bases.useCase.FlowUseCase
@@ -11,10 +12,12 @@ import com.shamlou.domain.model.cities.ResponseAllCitiesDomain
 import com.shamlou.domain.model.cities.ResponseCityDomain
 import com.shamlou.featureone.model.posts.ResponseAllCitiesView
 import com.shamlou.featureone.model.posts.ResponseCityView
+import com.shamlou.navigation.command.NavigationFlow
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.logging.Handler
 
 class AllCitiesViewModel(
     private val getAllCitiesUseCase : FlowUseCase<Unit, ResponseAllCitiesDomain>,
@@ -87,5 +90,11 @@ class AllCitiesViewModel(
                 _filteredCities.emit(it)
             }
         }
+    }
+
+    fun navigateToMap(){
+
+
+        navigateTo(NavigationFlow.ToMap(12))
     }
 }

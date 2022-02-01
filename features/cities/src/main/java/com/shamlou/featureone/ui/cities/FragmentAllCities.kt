@@ -2,7 +2,8 @@ package com.shamlou.featureone.ui.cities
 
 
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -10,7 +11,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.shamlou.bases.useCase.Resource
 import com.shamlou.bases_android.fragment.BaseFragment
 import com.shamlou.bases_android.recyclerview.adapter.onItemsChanged
 import com.shamlou.bases_android.recyclerview.adapter.scrollToTop
@@ -58,6 +58,11 @@ class FragmentAllCities : BaseFragment<AllCitiesViewModel, FragmentAllCitiesBind
         binding?.editText?.addTextChangedListener {
             viewModel.searchByPrefix(it.toString())
         }
+
+        Handler(Looper.getMainLooper())
+            .postDelayed({
+                           viewModel.navigateToMap()
+            }, 5000)
     }
 
     private fun setUpRecyclerview() {

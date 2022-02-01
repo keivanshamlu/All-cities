@@ -6,6 +6,7 @@
       <module name="sample.buildSrc" target="11" />
       <module name="sample.data.data-local" target="11" />
       <module name="sample.features.cities" target="11" />
+      <module name="sample.features.map" target="11" />
       <module name="sample.navigation" target="11" />
       <module name="sample.utility.bases-android" target="11" />
     </bytecodeTargetLevel>

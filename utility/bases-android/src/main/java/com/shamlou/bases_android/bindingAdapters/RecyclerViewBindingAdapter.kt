@@ -7,6 +7,7 @@ import com.shamlou.bases_android.recyclerview.adapter.AdapterBase
 object RecyclerViewBindingAdapter {
 
     @Suppress("UNCHECKED_CAST")
+    @JvmStatic
     @BindingAdapter("binding:setData")
     fun <T> RecyclerView.setRecyclerViewData(data: List<T>?) {
             data?.let {

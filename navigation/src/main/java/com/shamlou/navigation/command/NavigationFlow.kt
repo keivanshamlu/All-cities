@@ -5,11 +5,11 @@ import com.shamlou.featureone.ui.cities.FragmentAllCitiesDirections
 import com.shamlou.navigation.command.NavigationFlow.*
 
 sealed class NavigationFlow {
-    data class ToShowCity(val showId: Long) : NavigationFlow()
+    data class ToMap(val showId: Long) : NavigationFlow()
 }
 
 
 fun NavigationFlow.toNavDirections(): NavDirections =
     when (this) {
-        is ToShowCity -> FragmentAllCitiesDirections.actionFragmentAllCitiesToMap()
+        is ToMap -> FragmentAllCitiesDirections.actionFragmentAllCitiesToMap()
     }

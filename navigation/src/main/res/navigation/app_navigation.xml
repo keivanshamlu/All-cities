@@ -11,7 +11,13 @@
         >
 
         <action android:id="@+id/action_fragment_all_cities_to_map"
-            app:destination="@+id/fragment_all_cities"/>
+            app:destination="@+id/fragment_map"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_map"
+        android:name="com.shamlou.map.ui.FragmentMap">
 
     </fragment>
 </navigation>

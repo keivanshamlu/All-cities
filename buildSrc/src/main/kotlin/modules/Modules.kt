@@ -13,7 +13,8 @@ object Modules {
     }
     object Feature {
         private const val dir = ":features"
-        const val FEATURE_ONE = "$dir:cities"
+        const val CITIES = "$dir:cities"
+        const val MAP = "$dir:map"
     }
     object Utility {
         private const val dir = ":utility"

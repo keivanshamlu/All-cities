@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.map
 
 class GetAllCitiesUseCase(
     private val repository: CitiesRepository
-) : FlowUseCase<Unit, List<ResponseCityDomain>> {
+) : FlowUseCase<String, List<ResponseCityDomain>> {
 
-    override fun execute(parameters: Unit): Flow<Resource<List<ResponseCityDomain>>> {
+    override fun execute(parameters: String): Flow<Resource<List<ResponseCityDomain>>> {
         return repository.getAllCities().map {
-            Resource.success(it)
+            Resource.success(it.search(parameters))
         }
     }
 }

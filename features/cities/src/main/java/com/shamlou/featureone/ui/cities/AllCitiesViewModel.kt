@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.shamlou.bases.mapper.Mapper
 import com.shamlou.bases.useCase.FlowUseCase
 import com.shamlou.bases.useCase.Resource
-import com.shamlou.bases.useCase.map
 import com.shamlou.bases.useCase.mapListed
 import com.shamlou.bases_android.viewModel.BaseViewModel
 import com.shamlou.domain.model.cities.ResponseCityDomain
@@ -16,7 +15,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class AllCitiesViewModel(
-    private val getAllCitiesUseCase : FlowUseCase<Unit, List<ResponseCityDomain>>,
+    private val getAllCitiesUseCase : FlowUseCase<String, List<ResponseCityDomain>>,
     private val mapperCitiesDomainToView: Mapper<ResponseCityDomain, ResponseCityView>,
 ) : BaseViewModel(){
 
@@ -25,14 +24,10 @@ class AllCitiesViewModel(
     val cities: StateFlow<Resource<List<ResponseCityView>>>
         get() = _cities
 
-    init {
-
-        getCities()
-    }
-    private fun getCities() {
+    fun getCities(prefix: String) {
         viewModelScope.launch {
             _cities.emit(Resource.loading())
-            getAllCitiesUseCase.invoke(Unit).map {
+            getAllCitiesUseCase.invoke(prefix).map {
                 it.mapListed(mapperCitiesDomainToView)
             }.collect {
                 _cities.emit(it)

@@ -11,5 +11,5 @@ import org.koin.dsl.module
 val domainModule = module {
 
 
-    single<FlowUseCase<Unit, List<ResponseCityDomain>>>(GET_CITIES_USE_CASE) { GetAllCitiesUseCase(get(CITIES_REPO)) }
+    single<FlowUseCase<String, List<ResponseCityDomain>>>(GET_CITIES_USE_CASE) { GetAllCitiesUseCase(get(CITIES_REPO)) }
 }

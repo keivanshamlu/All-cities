@@ -165,7 +165,9 @@ class Node<T>(var isLeaf: Boolean, var item: Item<T>? = null) {
     fun getAllChildren(tillNow: String): List<T> {
 
         val list = mutableListOf<T>()
-        if (isLeaf) item?.item?.let { return listOf(it) }
+        if (isLeaf && item?.label?.lowercase()?.startsWith(tillNow) == true && item?.item != null) {
+            item?.item?.let { return listOf(it) }
+        }
         edges.map {
             if (it.value.next.isLeaf) list.add(it.value.next.item!!.item)
             else list.addAll(

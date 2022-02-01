@@ -1,6 +1,5 @@
 package com.shamlou.featureone.ui.cities
 
-import android.os.Looper
 import androidx.lifecycle.viewModelScope
 import com.shamlou.bases.mapper.Mapper
 import com.shamlou.bases.useCase.FlowUseCase
@@ -13,17 +12,17 @@ import com.shamlou.domain.model.cities.ResponseCityDomain
 import com.shamlou.featureone.model.posts.ResponseAllCitiesView
 import com.shamlou.featureone.model.posts.ResponseCityView
 import com.shamlou.navigation.command.NavigationFlow
+import com.shamlou.navigation.model.NavModelCity
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.util.logging.Handler
 
 class AllCitiesViewModel(
     private val getAllCitiesUseCase : FlowUseCase<Unit, ResponseAllCitiesDomain>,
     private val searchInCitiesByPrefix : FlowUseCase<String, List<ResponseCityDomain>>,
     private val mapperAllCitiesDomainToView: Mapper<ResponseAllCitiesDomain, ResponseAllCitiesView>,
-    private val mapperCitiesDomainToView: Mapper<ResponseCityDomain, ResponseCityView>
+    private val mapperCitiesDomainToView: Mapper<ResponseCityDomain, ResponseCityView>,
+    private val mapperCitiesViewToNavModel: Mapper<ResponseCityView, NavModelCity>
 ) : BaseViewModel(){
 
 
@@ -35,15 +34,25 @@ class AllCitiesViewModel(
     val filteredCities: StateFlow<Resource<List<ResponseCityView>>>
         get() = _filteredCities
 
-    val isEmptyStateButtonVisible = allCities.combine(filteredCities){ allcities , filteredCities ->
-        allcities.isSuccess() && filteredCities.isSuccess() && filteredCities.data?.isEmpty()?:true
-    }
+    // connected to searchbar via two-way data binding
+    val enteredText = MutableStateFlow<String?>(null)
 
-    val descText = allCities.combine(filteredCities){ allcities , filteredCities ->
+    // combines allCities and enteredText and based on state, computes
+    // whether empty state view should be shown or not
+    // we use stateIn because combine returns Flow and we want stateFlow instead(to use with data binding)
+    val isEmptyStateButtonVisible = allCities.combine(enteredText){ allCities , enteredText ->
+        allCities.isSuccess() && enteredText.isNullOrEmpty()
+        }.stateIn(viewModelScope, SharingStarted.Lazily, false)
+
+
+    // combines allCities and filteredCities and based on state, computes
+    // a text to be shown in desc(below searchbar)
+    // we use stateIn because combine returns Flow and we want stateFlow instead(to use with data binding)
+    val descText = allCities.combine(filteredCities){ allCities , filteredCities ->
         takeIf {
-            allcities.isSuccess() && filteredCities.isSuccess() && filteredCities.data?.isEmpty()?:true
+            allCities.isSuccess() && enteredText.value.isNullOrEmpty()
         }?.run {
-            allcities.data?.size?.let {
+            allCities.data?.size?.let {
                 "explore $it cities..."
             }
         }?: kotlin.run {
@@ -51,10 +60,17 @@ class AllCitiesViewModel(
                 "${filteredCities.data?.size} result found"
             }
         }
-    }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, "")
 
+    /**
+     * enteredText is connected to searchbar via two-way data binding
+     * listens to enteredText and searches for cities starting with searchbar text
+     * this stateflow is started eagerly so it don't need too be observed
+     */
     init {
-
+        enteredText.map {
+            it?.let { searchByPrefix(it) }
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
         getCities()
     }
 
@@ -79,7 +95,7 @@ class AllCitiesViewModel(
      * last job whenever new char entered in edittext
      */
     var searchJob : Job? = null
-    fun searchByPrefix(prefix: String){
+    private fun searchByPrefix(prefix: String){
 
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
@@ -92,9 +108,11 @@ class AllCitiesViewModel(
         }
     }
 
-    fun navigateToMap(){
+    /**
+     * maps selected city to NavModel and then navigates user to map fragment
+     */
+    fun navigateToMap(selectedCity : ResponseCityView){
 
-
-        navigateTo(NavigationFlow.ToMap(12))
+        navigateTo(NavigationFlow.ToMap(mapperCitiesViewToNavModel.map(selectedCity)))
     }
 }

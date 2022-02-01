@@ -24,6 +24,7 @@
             android:padding="8dp"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:text="@{viewModel.descText}"
             app:layout_constraintStart_toStartOf="@id/guide_line_start"
             app:layout_constraintTop_toBottomOf="@+id/edit_text_field" />
 
@@ -32,6 +33,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/ic_empty_state"
+            binding:isVisible="@{viewModel.isEmptyStateButtonVisible}"
             android:background="@drawable/empty_state_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +91,9 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:minHeight="48dp"
-                android:minLines="1"/>
+                android:minLines="1"
+                android:text="@={viewModel.enteredText}"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

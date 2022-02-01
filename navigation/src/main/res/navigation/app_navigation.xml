@@ -19,5 +19,11 @@
         android:id="@+id/fragment_map"
         android:name="com.shamlou.map.ui.FragmentMap">
 
+        <argument
+            android:name="selectedCity"
+            app:argType="com.shamlou.navigation.model.NavModelCity"
+            app:nullable="false"
+            />
+
     </fragment>
 </navigation>

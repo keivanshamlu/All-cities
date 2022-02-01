@@ -34,40 +34,12 @@ class FragmentAllCities : BaseFragment<AllCitiesViewModel, FragmentAllCitiesBind
         super.onViewCreated(view, savedInstanceState)
 
         setUpRecyclerview()
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                //since android studio does not support flow in data binding i have to do this
-                viewModel.isEmptyStateButtonVisible.collect {
-
-                    binding?.imageViewEmptyState?.isVisible = it
-                }
-            }
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                //since android studio does not support flow in data binding i have to do this
-                viewModel.descText.collect {
-
-                    binding?.textViewDesc?.text = it
-                }
-            }
-        }
-
-        //todo change it to data binding stuff
-        binding?.editText?.addTextChangedListener {
-            viewModel.searchByPrefix(it.toString())
-        }
-
-        Handler(Looper.getMainLooper())
-            .postDelayed({
-                           viewModel.navigateToMap()
-            }, 5000)
     }
 
     private fun setUpRecyclerview() {
 
         binding?.recyclerviewCities?.apply {
+
             layoutManager = LinearLayoutManager(requireContext())
             adapter = CitiesAdapter().apply {
 
@@ -75,6 +47,9 @@ class FragmentAllCities : BaseFragment<AllCitiesViewModel, FragmentAllCitiesBind
                 // updated(since it's sorted user needs to see first items)
                 onItemsChanged {
                     scrollToTop()
+                }
+                onItemClicked = { item, _ ->
+                    viewModel.navigateToMap(item)
                 }
             }
         }

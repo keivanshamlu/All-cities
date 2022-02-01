@@ -28,25 +28,24 @@ class AllCitiesViewModel(
     val allCities: StateFlow<Resource<ResponseAllCitiesView>>
         get() = _allCities
 
-    private val _filteredCities = MutableStateFlow<Resource<List<ResponseCityView>>>(Resource.loading())
+    private val _filteredCities = MutableStateFlow<Resource<List<ResponseCityView>>>(Resource.success(listOf()))
     val filteredCities: StateFlow<Resource<List<ResponseCityView>>>
         get() = _filteredCities
 
     val isEmptyStateButtonVisible = allCities.combine(filteredCities){ allcities , filteredCities ->
-        allcities.isSuccess() && filteredCities.data?.isEmpty()?:true
+        allcities.isSuccess() && filteredCities.isSuccess() && filteredCities.data?.isEmpty()?:true
     }
 
     val descText = allCities.combine(filteredCities){ allcities , filteredCities ->
         takeIf {
-            allcities.isSuccess() && filteredCities.data?.isEmpty()?:true
+            allcities.isSuccess() && filteredCities.isSuccess() && filteredCities.data?.isEmpty()?:true
         }?.run {
             allcities.data?.size?.let {
-
                 "explore $it cities..."
             }
         }?: kotlin.run {
-            filteredCities.data?.size?.let {
-                "$it result found"
+            takeIf { filteredCities.data.isNullOrEmpty().not() }?.run {
+                "${filteredCities.data?.size} result found"
             }
         }
     }

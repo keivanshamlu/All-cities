@@ -23,7 +23,7 @@ class CitiesMemoryDataSource(
     // static and it never change, it will be alright), so whenever
     // tree is empty we fetch data and insert it all into tree and
     // from that time, we use that populated tree
-    var tree = RadixTree<ResponseCityDomain>()
+    private var tree = RadixTree<ResponseCityDomain>()
 
     override suspend fun read(input: Unit): RadixTree<ResponseCityDomain> {
         return tree

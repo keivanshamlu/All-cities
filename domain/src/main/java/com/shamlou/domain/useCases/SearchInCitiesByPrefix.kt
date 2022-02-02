@@ -16,7 +16,7 @@ class SearchInCitiesByPrefix(
 ) : FlowUseCase<String, List<ResponseCityDomain>> {
 
     override fun execute(parameters: String): Flow<Resource<List<ResponseCityDomain>>> {
-        return repository.searchInCitiesByPrefix().map {
+        return repository.getCityDomainRadixTree().map {
             Resource.success(it.search(parameters))
         }
     }

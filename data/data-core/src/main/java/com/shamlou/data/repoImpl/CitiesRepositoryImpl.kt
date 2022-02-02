@@ -40,7 +40,7 @@ class CitiesRepositoryImpl(
     /**
      * emits cached cities in [citiesMemoryDataSourceReadable]
      */
-    override fun searchInCitiesByPrefix(): Flow<RadixTree<ResponseCityDomain>> {
+    override fun getCityDomainRadixTree(): Flow<RadixTree<ResponseCityDomain>> {
 
         return flow {
             citiesMemoryDataSourceReadable.read(Unit).also {

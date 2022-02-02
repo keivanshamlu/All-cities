@@ -11,5 +11,5 @@ import kotlinx.coroutines.flow.Flow
 interface CitiesRepository {
 
     fun getAndSaveAllCities(): Flow<ResponseAllCitiesDomain>
-    fun searchInCitiesByPrefix(): Flow<RadixTree<ResponseCityDomain>>
+    fun getCityDomainRadixTree(): Flow<RadixTree<ResponseCityDomain>>
 }

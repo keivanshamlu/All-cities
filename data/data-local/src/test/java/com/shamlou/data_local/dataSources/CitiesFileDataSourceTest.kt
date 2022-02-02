@@ -5,10 +5,10 @@ import com.shamlou.bases.mapper.Mapper
 import com.shamlou.data.model.cities.ResponseCityData
 import com.shamlou.data_local.fileReader.ReadFileFromAssets
 import com.shamlou.data_local.model.cities.ResponseCityLocal
-import com.shamlou.data_local.utility.Fakes.sampleErrorText
+import com.shamlou.data.utility.Fakes.sampleErrorText
+import com.shamlou.data.utility.Fakes.validCitiyListResponseData
+import com.shamlou.data.utility.Fakes.validCitiyListResponseJson
 import com.shamlou.data_local.utility.Fakes.type
-import com.shamlou.data_local.utility.Fakes.validCitiyListResponseData
-import com.shamlou.data_local.utility.Fakes.validCitiyListResponseJson
 import com.shamlou.data_local.utility.Fakes.validCitiyListResponseLocal
 import com.shamlou.data_local.utility.MainCoroutineRule
 import io.mockk.*
@@ -30,7 +30,7 @@ class CitiesFileDataSourceTest{
     lateinit var dataSource: CitiesFileDataSource
 
     @MockK(relaxed = true)
-    lateinit var mapperCityLocalToData: Mapper<ResponseCityLocal, ResponseCityData>
+    lateinit var mapper: Mapper<ResponseCityLocal, ResponseCityData>
     @MockK
     lateinit var fileReader : ReadFileFromAssets
     @MockK
@@ -39,7 +39,7 @@ class CitiesFileDataSourceTest{
     fun setUp() {
 
         MockKAnnotations.init(this)
-        dataSource = CitiesFileDataSource(mapperCityLocalToData, fileReader, gson)
+        dataSource = CitiesFileDataSource(mapper, fileReader, gson)
     }
 
     @Test
@@ -73,7 +73,7 @@ class CitiesFileDataSourceTest{
         //then
         verifyOrder {
             validCitiyListResponseLocal.map {
-                 mapperCityLocalToData.map(it)
+                 mapper.map(it)
             }
         }
     }
@@ -85,7 +85,7 @@ class CitiesFileDataSourceTest{
         //when
         dataSource.read(Unit)
         //then
-        verify { mapperCityLocalToData.map(any()) wasNot Called}
+        verify { mapper.map(any()) wasNot Called}
     }
     @Test
     @ExperimentalCoroutinesApi
@@ -130,7 +130,7 @@ class CitiesFileDataSourceTest{
         // relaxed does not work on generic types
         // so i stub the mapper with valid output
         validCitiyListResponseLocal.mapIndexed { index, item ->
-            every { mapperCityLocalToData.map(item) } returns validCitiyListResponseData[index]
+            every { mapper.map(item) } returns validCitiyListResponseData[index]
         }
 
         // make gson return valid local model list
@@ -145,15 +145,17 @@ class CitiesFileDataSourceTest{
 
         // relaxed does not work on generic types
         // so i stub the mapper with valid output
+        // verify all items of a list to corresponding items
         validCitiyListResponseLocal.mapIndexed { index, item ->
-            every { mapperCityLocalToData.map(item) } returns validCitiyListResponseData[index]
+            every { mapper.map(item) } returns validCitiyListResponseData[index]
         }
 
         // make gson return empty
-        every { gson.fromJson<List<ResponseCityLocal>?>("", type) } returns listOf()
+        val emptyString = ""
+        every { gson.fromJson<List<ResponseCityLocal>?>(emptyString, type) } returns listOf()
 
         // make read file return empty json string
-        every { fileReader.readFile(any()) } returns ""
+        every { fileReader.readFile(any()) } returns emptyString
     }
 }
 

@@ -1,8 +1,8 @@
 package com.shamlou.data_local.fileReader
 
 import android.content.Context
-import com.shamlou.data_local.utility.Fakes.sampleErrorText
-import com.shamlou.data_local.utility.Fakes.validCitiyListResponseJson
+import com.shamlou.data.utility.Fakes.sampleErrorText
+import com.shamlou.data.utility.Fakes.validCitiyListResponseJson
 import com.shamlou.data_local.utility.MainCoroutineRule
 import io.mockk.MockKAnnotations
 import io.mockk.every

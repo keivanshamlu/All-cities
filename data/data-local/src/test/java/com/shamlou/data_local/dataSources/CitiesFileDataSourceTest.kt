@@ -15,7 +15,6 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -44,6 +43,7 @@ class CitiesFileDataSourceTest{
     }
 
     @Test
+    @ExperimentalCoroutinesApi
     fun read_shouldCallFileReader() = mainCoroutineRule.runBlockingTest {
         // given
         stubEveryThingWithValidFakes()
@@ -54,6 +54,7 @@ class CitiesFileDataSourceTest{
     }
 
     @Test
+    @ExperimentalCoroutinesApi
     fun read_shouldGetJsonFromReaderAndCallGson() = mainCoroutineRule.runBlockingTest {
         // given
         stubEveryThingWithValidFakes()
@@ -63,6 +64,7 @@ class CitiesFileDataSourceTest{
         verify { gson.fromJson<List<ResponseCityLocal>?>(eq(validCitiyListResponseJson) , eq(type)) }
     }
     @Test
+    @ExperimentalCoroutinesApi
     fun read_shouldMapAllTheLocalObjects() = mainCoroutineRule.runBlockingTest {
         // given
         stubEveryThingWithValidFakes()
@@ -76,6 +78,7 @@ class CitiesFileDataSourceTest{
         }
     }
     @Test
+    @ExperimentalCoroutinesApi
     fun read_shouldNotCallMapper_whenJsonIsEmpty() = mainCoroutineRule.runBlockingTest {
         // given
         stubEveryThingWithEmptyResult()
@@ -85,24 +88,27 @@ class CitiesFileDataSourceTest{
         verify { mapperCityLocalToData.map(any()) wasNot Called}
     }
     @Test
+    @ExperimentalCoroutinesApi
     fun read_shouldReturnValidOutput() = mainCoroutineRule.runBlockingTest {
         // given
         stubEveryThingWithValidFakes()
         //when
         val result = dataSource.read(Unit)
         //then
-        Assert.assertEquals(result , validCitiyListResponseData)
+        assertEquals(result , validCitiyListResponseData)
     }
     @Test
+    @ExperimentalCoroutinesApi
     fun read_shouldReturnEmptyList_whenJsonIsEmpty() = mainCoroutineRule.runBlockingTest {
         // given
         stubEveryThingWithEmptyResult()
         //when
         val result = dataSource.read(Unit)
         //then
-        Assert.assertEquals(result , listOf<ResponseCityData>())
+        assertEquals(result , listOf<ResponseCityData>())
     }
     @Test
+    @ExperimentalCoroutinesApi
     fun read_shouldThrow_whenGsonThrow() = mainCoroutineRule.runBlockingTest {
         // given
         stubEveryThingWithEmptyResult()

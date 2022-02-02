@@ -2,7 +2,7 @@ package com.shamlou.data_local.model.cities
 
 import com.google.gson.annotations.SerializedName
 
-class ResponseCitiesLocal (
+class ResponseCityLocal (
     @SerializedName("country")
     var country: String? = null,
     @SerializedName("name")

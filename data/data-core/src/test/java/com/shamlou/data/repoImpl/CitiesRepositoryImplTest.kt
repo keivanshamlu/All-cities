@@ -5,9 +5,9 @@ import com.shamlou.bases.mapper.Mapper
 import com.shamlou.bases.readWrite.Readable
 import com.shamlou.bases.readWrite.Writable
 import com.shamlou.data.model.cities.ResponseCityData
-import com.shamlou.data.utility.Fakes.emptyRadixTree
-import com.shamlou.data.utility.Fakes.validAllCityData
-import com.shamlou.data.utility.Fakes.validCitiyListResponseData
+import com.shamlou.domain.utility.Fakes.emptyRadixTree
+import com.shamlou.domain.utility.Fakes.validAllCityData
+import com.shamlou.domain.utility.Fakes.validCitiyListResponseData
 import com.shamlou.data_local.utility.MainCoroutineRule
 import com.shamlou.domain.model.cities.ResponseAllCitiesDomain
 import com.shamlou.domain.model.cities.ResponseCityDomain

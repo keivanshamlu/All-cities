@@ -2,8 +2,8 @@ package com.shamlou.data.dataSource
 
 import com.shamlou.bases.mapper.Mapper
 import com.shamlou.data.model.cities.ResponseCityData
-import com.shamlou.data.utility.Fakes.validCitiyListResponseData
-import com.shamlou.data.utility.Fakes.validCitiyListResponseDomain
+import com.shamlou.domain.utility.Fakes.validCitiyListResponseData
+import com.shamlou.domain.utility.Fakes.validCitiyListResponseDomain
 import com.shamlou.data_local.utility.MainCoroutineRule
 import com.shamlou.domain.model.cities.ResponseCityDomain
 import io.mockk.MockKAnnotations

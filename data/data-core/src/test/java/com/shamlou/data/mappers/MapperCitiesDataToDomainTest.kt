@@ -2,8 +2,8 @@ package com.shamlou.data.mappers
 
 import com.shamlou.bases.mapper.Mapper
 import com.shamlou.data.model.cities.ResponseCityData
-import com.shamlou.data.utility.Fakes
-import com.shamlou.data.utility.Fakes.validCitiyResponseDomain
+import com.shamlou.domain.utility.Fakes
+import com.shamlou.domain.utility.Fakes.validCitiyResponseDomain
 import com.shamlou.data_local.utility.MainCoroutineRule
 import com.shamlou.domain.model.cities.ResponseCityDomain
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -106,7 +106,7 @@ class RadixTree<T>(private val root: Node<T> = Node(false)) {
             currIndex += edge.label.length
             current = edge.next
         }
-        return current.getAllChildren(word)
+        return current.getAllChildren(word.lowercase())
     }
 
     companion object {

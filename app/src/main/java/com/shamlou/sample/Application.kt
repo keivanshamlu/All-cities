@@ -11,7 +11,6 @@ class Application : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 
-
         // Init Koin
         startKoin {
             androidContext(this@Application)

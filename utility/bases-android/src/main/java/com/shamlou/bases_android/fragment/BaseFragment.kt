@@ -16,7 +16,8 @@ import com.shamlou.bases_android.viewModel.BaseViewModel
 /**
  * to reuse shared logic between all fragments
  * like: prevent binding object from leaking,
- * handle navigation and ui actions like toast and snackbar using command design pattern
+ * handle navigation and ui actions like toast and
+ * snack bar using command design pattern
  */
 abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> :
     Fragment() {

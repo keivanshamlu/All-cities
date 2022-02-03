@@ -6,8 +6,8 @@ import com.shamlou.domain.di.domainModule
 import com.shamlou.featureone.di.citiesFeatureModule
 import com.shamlou.map.di.mapFeatureModule
 
+// all koi modules of project should be here
 val koinModules = listOf(
-    appModule,
     repositoryModule,
     localModule,
     domainModule,

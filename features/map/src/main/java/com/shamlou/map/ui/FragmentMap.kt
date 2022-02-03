@@ -22,8 +22,6 @@ import org.koin.core.parameter.parametersOf
 import com.google.android.gms.maps.model.CameraPosition
 
 
-
-
 class FragmentMap: BaseFragment<MapsViewModel, FragmentMapBinding>() , OnMapReadyCallback {
 
     private val args : FragmentMapArgs by navArgs()
@@ -47,7 +45,8 @@ class FragmentMap: BaseFragment<MapsViewModel, FragmentMapBinding>() , OnMapRead
     private fun observeViewModel(){
 
 
-        //i use repeatOnLifecycle to prevent bugs that may accrue when app is in background
+        // i use repeatOnLifecycle to prevent bugs
+        // that may accrue when app is in background
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.showLocationEvent.collect {

@@ -10,7 +10,7 @@ buildscript {
             classpath(ANDROID_GRADLE)
             classpath(KOTLIN_GRADLE)
             classpath(SAFE_ARGS)
-            classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.0")
+            classpath(GOOGLE_SECRETS)
         }
     }
 }

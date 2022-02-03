@@ -14,10 +14,16 @@ const val test = "test"
 const val androidTest = "androidTest"
 const val sharedTestDir = "src/sharedTest/java"
 
+/**
+ * for reusing dependencies and build logic in modules
+ * i actually wrote a article about it
+ * https://medium.com/@keivan.shamlu.ks/how-to-share-dependencies-and-build-config-in-kotlin-dsl-6cdbbc60e39e
+ */
 val Project.android: BaseExtension
     get() = extensions.findByName("android") as? BaseExtension
         ?: error("$name is not an android module")
 
+//shared build logic of app
 fun Project.androidApp(appId: String) {
     androidLib {
         applicationId = appId
@@ -53,11 +59,15 @@ fun Project.androidLib(
         }
         excludePackages()
     }
+    //base dependencies for all modules
     dependencies {
         baseAndroidDependencies()
     }
 }
-
+/**
+ * shared build logic of all features,
+ * custom config could be added as default @Param
+ */
 fun Project.androidFeature(
     default: (DefaultConfig.() -> Unit)? = null
 ) {

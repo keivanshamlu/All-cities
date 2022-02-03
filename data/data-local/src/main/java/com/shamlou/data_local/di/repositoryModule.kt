@@ -15,7 +15,6 @@ import org.koin.dsl.module
 
 val localModule = module {
 
-
     single<Mapper<ResponseCityLocal, ResponseCityData>>(MAPPER_CITIES_LOCAL_TO_DATA){ MapperCitiesLocalToData()  }
     single { ReadFileFromAssets(androidContext()) }
     single { Gson() }

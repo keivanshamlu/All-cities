@@ -39,11 +39,9 @@ class FragmentMap: BaseFragment<MapsViewModel, FragmentMapBinding>() , OnMapRead
 
         setUpMap()
         observeViewModel()
-
     }
 
     private fun observeViewModel(){
-
 
         // i use repeatOnLifecycle to prevent bugs
         // that may accrue when app is in background

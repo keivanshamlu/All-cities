@@ -29,6 +29,13 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+/**
+ * since mockk does not support stubbing functions in base classes,
+ * I couldn't stub execute() in [FlowUseCase] so I had to pick another test double...
+ * I picked Faker test double and for every test scenario i implement [FlowUseCase]
+ * and then in execute() i return the value that my test scenario needs.
+ * you can find Fakers in [FakeAllCitiesUseCaseSuccess] file
+ */
 class AllCitiesViewModelTest {
 
     @ExperimentalCoroutinesApi

@@ -26,10 +26,12 @@ class AllCitiesViewModel(
 ) : BaseViewModel(){
 
 
+    // contains data about all cities that are fetch
     private val _allCities = MutableStateFlow<Resource<ResponseAllCitiesView>>(Resource.loading())
     val allCities: StateFlow<Resource<ResponseAllCitiesView>>
         get() = _allCities
 
+    // contains filtered cities based on prefix
     private val _filteredCities = MutableStateFlow<Resource<List<ResponseCityView>>>(Resource.success(listOf()))
     val filteredCities: StateFlow<Resource<List<ResponseCityView>>>
         get() = _filteredCities

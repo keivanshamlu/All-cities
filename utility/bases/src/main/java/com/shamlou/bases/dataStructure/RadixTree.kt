@@ -5,8 +5,6 @@ import java.util.*
 /**
  * (In the following comparisons, it is assumed that the keys are of length k
  * and the data structure contains n members.)
- *
- *  lookup, insertion, and deletion in O(k)
  */
 class RadixTree<T>(private val root: Node<T> = Node(false)) {
 

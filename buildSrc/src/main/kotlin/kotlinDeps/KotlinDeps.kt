@@ -1,7 +1,7 @@
 package kotlinDeps
 
 object KotlinDeps {
-    const val version = "1.5.20"
+    const val version = "2.0.21"
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version"
 
     object Coroutine {

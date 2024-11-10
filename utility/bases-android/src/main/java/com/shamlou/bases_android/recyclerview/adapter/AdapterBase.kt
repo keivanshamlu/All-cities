@@ -19,9 +19,9 @@ abstract class AdapterBase<T>(
         ListAdapter<T, AdapterBase<T>.DataBindingViewHolder>(
                 object : DiffUtil.ItemCallback<T>() {
 
-                    override fun areItemsTheSame(oldItem: T, newItem: T) = areItemsTheSame(oldItem, newItem)
+                    override fun areItemsTheSame(oldItem: T & Any, newItem: T & Any) = areItemsTheSame(oldItem, newItem)
 
-                    override fun areContentsTheSame(oldItem: T, newItem: T) = areContentsTheSame(oldItem, newItem)
+                    override fun areContentsTheSame(oldItem: T & Any, newItem: T & Any) = areContentsTheSame(oldItem, newItem)
                 }
         ) {
 

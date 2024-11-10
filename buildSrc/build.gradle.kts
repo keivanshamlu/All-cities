@@ -9,7 +9,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21")
     }
 }
 repositories {
@@ -17,9 +17,9 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation("com.android.tools.build:gradle:7.0.4")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.20")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
+    implementation("com.android.tools.build:gradle:7.1.3")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21")
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {

@@ -8,7 +8,6 @@ plugins {
         kotlin(ANDROID)
         kotlin(KAPT)
         id(NAVIGATION_SAFEARGS_KOTLIN)
-        id(ANDROID_EXTENSIONS)
     }
 }
 androidLib{

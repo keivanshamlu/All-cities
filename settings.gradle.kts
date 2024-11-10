@@ -1,4 +1,5 @@
 rootProject.name = "sample"
+enableFeaturePreview("VERSION_CATALOGS")
 include(":app")
 include(":domain")
 include(":data:data-core")

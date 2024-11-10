@@ -7,7 +7,6 @@ plugins {
         kotlin(ANDROID)
         kotlin(KAPT)
         id(NAVIGATION_SAFEARGS_KOTLIN)
-        id(ANDROID_EXTENSIONS)
         id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     }
     id("kotlin-android")
